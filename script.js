@@ -1,37 +1,48 @@
-let userInput = document.getElementById("date");
-userInput.max = new Date().toISOString().split("T")[0];
-let result = document.getElementById("result");
-function calculateAge(){
-let birthDate = new Date(userInput.value);
-let d1 = birthDate.getDate();
-let m1 = birthDate.getMonth();
-let y1 = birthDate.getFullYear();
-let today = new Date();
-let d2 = today.getDate();
-let m2 = today.getMonth() + 1;
-let y2 = today.getFullYear();
+// Wait until the DOM content is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+    const userInput = document.getElementById("date");
+    const result = document.getElementById("result");
+  
+    // Set maximum selectable date to today
+    userInput.max = new Date().toISOString().split("T")[0];
+  
+    // Attach the calculateAge function to the global scope so it can be called from HTML
+    window.calculateAge = function () {
+      // Check if a date has been selected
+      if (!userInput.value) {
+        result.innerHTML = '<span style="color: red;">Please select your birth date.</span>';
+        return;
+      }
+  
+      // Parse the input date and get today's date
+      const birthDate = new Date(userInput.value);
+      const today = new Date();
+  
+      // Calculate the differences in years, months, and days
+      let years = today.getFullYear() - birthDate.getFullYear();
+      let months = today.getMonth() - birthDate.getMonth();
+      let days = today.getDate() - birthDate.getDate();
+  
+      // If the day difference is negative, borrow days from the previous month
+      if (days < 0) {
+        months--;
+        days += getDaysInMonth(today.getFullYear(), today.getMonth());
+      }
+  
+      // If the month difference is negative, adjust the year and month
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+  
+      // Display the result with styling
+      result.innerHTML = `You are <span>${years}</span> years, <span>${months}</span> months, <span>${days}</span> days old.`;
+    };
+  
+    // Helper function to get the number of days in a given month
+    function getDaysInMonth(year, month) {
 
-let d3, m3, y3;
-y3 = y2 - y1;
-if(m2 >= m1){
-    m3 = m2 - m1;
-}else{
-    y3--;
-    m3 = 12 + m2 - m1;
-}
-if(d2 >= d1){
-    d3 = d2 - d1;
-}else{
-m3--;
-d3 = getDaaysInMonth(y1,m1) + d2 - d1;
-}
-if(m3 < 0){
-    m3 =11;
-    y3--;
-}
-result.innerHTML = `You are <span>${y3}</span> years, <span> ${m3}</span> months, <span>${d3}</span> days old.`;
-
-}
-function getDaysInMonth(year, month){
-    return new Date(year, month, 0).getDate();
-}
+      return new Date(year, month, 0).getDate();
+    }
+  });
+  

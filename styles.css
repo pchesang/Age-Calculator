@@ -68,4 +68,45 @@ cursor: pointer;
 #result span {
     color: #f1c055;
 }
+@media (max-width: 768px) {
+    .calculator {
+      margin: 20px;
+      padding: 15px;
+      align-items: center;
+    }
+    
+    .calculator h1 {
+      font-size: 40px;
+    }
+    
+    .input-box {
+      flex-direction: column;
+      padding: 20px;
+    }
+    
+    .input-box input {
+      margin: 0 0 15px 0;
+      width: 100%;
+    }
+    
+    .input-box button {
+      width: 100%;
+      padding: 15px;
+    }
+    
+    #result {
+      font-size: 18px;
+    }
+  }
+  
+  /* Additional tweaks for very small devices */
+  @media (max-width: 480px) {
+    .calculator h1 {
+      font-size: 32px;
+    }
+    
+    #result {
+      font-size: 16px;
+    }
+  }
 
